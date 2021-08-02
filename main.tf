@@ -24,7 +24,7 @@ resource "aws_instance" "mediawiki" {
     type = "ssh"
     host = aws_instance.mediawiki.public_ip
     user = "ubuntu"
-    private_key = ${{ secrets.MYSECRET }}
+    private_key =  secrets.MYSECRET 
   }
   provisioner "file" {
     source = "script.sh"
