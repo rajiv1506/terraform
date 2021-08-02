@@ -15,22 +15,7 @@ jobs:
           tf_actions_subcommand: 'init'
           tf_actions_working_dir: '.'
           tf_actions_comment: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  terraformapply:
-    name: 'Terraformapply'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@master
-      - name: 'Terraform Init'
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 1.0.2
-          tf_actions_subcommand: 'init'
-          tf_actions_working_dir: '.'
-          tf_actions_comment: true
-      - name: 'Terraform Init'
+      - name: 'Terraform Apply'
         uses: hashicorp/terraform-github-actions@master
         with:
           tf_actions_version: 1.0.2
@@ -41,3 +26,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  

@@ -12,4 +12,3 @@ echo "vardir=/var/lib/puppet" >> /etc/puppet/puppet.conf
 echo "ssldir=/var/lib/puppet/ssl" >> /etc/puppet/puppet.conf
 echo "rundir=/var/run/puppet" >> /etc/puppet/puppet.conf
 echo "basemodulepath=./control/modules" >> /etc/puppet/puppet.conf
-
