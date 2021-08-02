@@ -41,8 +41,8 @@ resource "aws_security_group" "ssh" {
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
   cidr_blocks = [ "0.0.0.0/0" ]
-  from_port = 22
-  to_port = 22
+  from_port = var.ingress[0]
+  to_port = var.ingress[0]
   security_group_id = aws_security_group.ssh.id
   protocol = "tcp"
   type = "ingress"
