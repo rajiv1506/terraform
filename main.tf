@@ -20,22 +20,22 @@ resource "aws_instance" "mediawiki" {
   instance_type = "t2.micro"
   security_groups = [ "${aws_security_group.sshtomachine.name}" ]
   key_name = "terraform_winodws"
-  connection {
-    type = "ssh"
-    host = aws_instance.mediawiki.public_ip
-    user = "ubuntu"
-    private_key =  secrets.MYSECRET 
-  }
-  provisioner "file" {
-    source = "script.sh"
-    destination = "./script.sh"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "sudo chmod +x script.sh",
-      "sudo ./script.sh"
-    ]
-  }
+  user_data = <<-EOF
+               #!/bin/bash  
+               wget https://apt.puppetlabs.com/puppet5-release-bionic.deb
+               sudo dpkg -i puppet5-release-bionic.deb
+               sudo apt update -y
+               sudo apt install puppet -y
+               sudo rm /etc/puppet/puppet.conf /etc/puppetlabs/puppet/puppet.conf -f
+               sudo mkdir -p /etc/puppet/
+               sudo touch /etc/puppet/puppet.conf 
+               echo "[main]" >> /etc/puppet/puppet.conf
+               echo "logdir=/var/log/puppet"  |sudo tee -a /etc/puppet/puppet.conf
+               echo "vardir=/var/lib/puppet"  | sudo tee -a /etc/puppet/puppet.conf
+               echo "ssldir=/var/lib/puppet/ssl" | sudo tee -a /etc/puppet/puppet.conf
+               echo "rundir=/var/run/puppet" | sudo tee -a /etc/puppet/puppet.conf
+               echo "basemodulepath=./control/modules" | sudo tee -a /etc/puppet/puppet.conf
+              EOF
   tags = {
     "Name" = "mediawiki"
   }
