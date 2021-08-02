@@ -18,7 +18,7 @@ variable "test" {
 resource "aws_instance" "mediawiki" {
   ami = "ami-04bde106886a53080"
   instance_type = "t2.micro"
-  security_groups = [ "${aws_security_group.sshtomachine.sshubuntu}" ]
+  security_groups = [ "${aws_security_group.ssh.sshubuntu}" ]
   key_name = "terraform_winodws"
   user_data = <<-EOF
                #!/bin/bash  
