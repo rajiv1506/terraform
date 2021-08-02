@@ -36,7 +36,7 @@ resource "aws_instance" "mediawiki" {
 }
 
 resource "aws_security_group" "ssh" {
-  name = "testing2"
+  name = "accessgroup"
 }
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
