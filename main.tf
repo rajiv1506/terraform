@@ -18,7 +18,7 @@ variable "test" {
 resource "aws_instance" "mediawiki" {
   ami = "ami-04bde106886a53080"
   instance_type = "t2.micro"
-  security_groups = [ "${aws_security_group.sshtomachine.name}" ]
+  security_groups = [ "${aws_security_group.sshtomachine.sshubuntu}" ]
   key_name = "terraform_winodws"
   user_data = <<-EOF
                #!/bin/bash  
@@ -80,7 +80,7 @@ resource "aws_security_group_rule" "sshtomachine_rule" {
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = 22
   to_port = 22
-  security_group_id = aws_security_group.sshtomachine.id
+  security_group_id = aws_security_group.ssh.id
   protocol = "tcp"
   type = "ingress"
 }
@@ -89,7 +89,7 @@ resource "aws_security_group_rule" "mediwikiport" {
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = 80
   to_port = 80
-  security_group_id = aws_security_group.sshubuntu.id
+  security_group_id = aws_security_group.ssh.id
   protocol = "tcp"
   type = "ingress"
 }
@@ -102,6 +102,6 @@ resource "aws_security_group_rule" "outbound_rule" {
   to_port = var.egress[1]
   type = "egress"
   protocol = "all"
-  security_group_id = aws_security_group.sshubuntu.id
+  security_group_id = aws_security_group.ssh.id
 }
 
