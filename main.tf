@@ -70,13 +70,11 @@ resource "aws_instance" "jenkins" {
 */
 
 
-resource "aws_security_group" "sshtomachine" {
-  name = "sshintoec2"
+resource "aws_security_group" "ssh" {
+  name = "sshubuntu"
 }
 
-resource "aws_security_group" "jenkins" {
-  name = "jenkins"
-}
+
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
   cidr_blocks = [ "0.0.0.0/0" ]
@@ -91,19 +89,12 @@ resource "aws_security_group_rule" "mediwikiport" {
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = 80
   to_port = 80
-  security_group_id = aws_security_group.sshtomachine.id
+  security_group_id = aws_security_group.sshubuntu.id
   protocol = "tcp"
   type = "ingress"
 }
 
-resource "aws_security_group_rule" "jenkins_rule" {
-  cidr_blocks = [ "0.0.0.0/0" ]
-  from_port = 8080
-  to_port = 8080
-  security_group_id = aws_security_group.jenkins.id
-  protocol = "tcp"
-  type = "ingress"
-}
+
 
 resource "aws_security_group_rule" "outbound_rule" {
   cidr_blocks = [ "0.0.0.0/0" ]
@@ -111,6 +102,6 @@ resource "aws_security_group_rule" "outbound_rule" {
   to_port = var.egress[1]
   type = "egress"
   protocol = "all"
-  security_group_id = aws_security_group.sshtomachine.id
+  security_group_id = aws_security_group.sshubuntu.id
 }
 
