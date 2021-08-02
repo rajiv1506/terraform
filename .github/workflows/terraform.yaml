@@ -5,8 +5,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    env:
-      MYSECRET: ${{ secrets.MYSECRET }}
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
