@@ -71,7 +71,7 @@ resource "aws_instance" "jenkins" {
 
 
 resource "aws_security_group" "ssh" {
-  name = "sshubuntu"
+  name = "testing"
 }
 
 
