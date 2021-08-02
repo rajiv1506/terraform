@@ -1,9 +1,9 @@
-variable "secrets" {
+variable "SECRET" {
   type = string
   description = "secret key"
 }
 
-variable "SECRET" {
+variable "ACCESS" {
   type = string
   description = "access key"
 }
