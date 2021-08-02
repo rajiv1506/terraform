@@ -24,7 +24,7 @@ resource "aws_instance" "mediawiki" {
     type = "ssh"
     host = aws_instance.mediawiki.public_ip
     user = "ubuntu"
-    private_key = file("F:/terraform_creds/terraform_winodws.pem")
+    private_key = ${{ secrets.MYSECRET }}
   }
   provisioner "file" {
     source = "script.sh"
@@ -50,7 +50,7 @@ resource "aws_instance" "jenkins" {
     type = "ssh"
     host = aws_instance.jenkins.public_ip
     user = "ubuntu"
-    private_key = file("F:/terraform_creds/terraform_winodws.pem")
+    private_key =  secrets.MYSECRET 
   }
   provisioner "file" {
     source = "script.sh"
