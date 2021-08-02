@@ -1,18 +1,3 @@
-variable "SECRET_KEY" {
-  type = string
-  description = "secret key"
-}
-
-variable "ACCESS_KEY" {
-  type = string
-  description = "access key"
-}
-
-variable "REGION" {
-  type = string
-  description = "region"
-}
-
 variable "ingress" {
   type = map(string)
   default = {
