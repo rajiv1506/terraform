@@ -3,12 +3,12 @@ variable "secrets" {
   description = "secret key"
 }
 
-variable "access" {
+variable "SECRET" {
   type = string
   description = "access key"
 }
 
-variable "region" {
+variable "REGION" {
   type = string
   description = "region"
 }
