@@ -6,8 +6,8 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     env:
-      TF_VAR_ACCESS_KEY: ${{ var.ACCESS_KEY }}
-      TF_VAR_SECRET_KEY: ${{ var.SECRET_KEY }}
+      ACCESS_KEY: ${{ secret.ACCESS_KEY }}
+      SECRET_KEY: ${{ secret.SECRET_KEY }}
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
