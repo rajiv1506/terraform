@@ -5,6 +5,8 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    env:
+      MYSECRET: ${{ secrets.MYSECRET }}
     steps:
       - name: 'Checkout'
         uses: actions/checkout@master
@@ -37,7 +39,5 @@ jobs:
           tf_actions_subcommand: 'apply'
           tf_actions_working_dir: '.'
           tf_actions_comment: true
-        env:
-          MYSECRET: ${{ secrets.MYSECRET }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
