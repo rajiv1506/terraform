@@ -11,7 +11,7 @@ terraform {
 # Provosing mediawiki server
 resource "aws_instance" "mediawiki" {
   ami = "ami-04bde106886a53080"
-  instance_type = "t2.micro"
+  instance_type = var.instancedetails["instance_type"]
   security_groups = [ "${aws_security_group.ssh.name}" ]
   key_name = "terraform_winodws"
   user_data = <<-EOF
@@ -31,12 +31,12 @@ resource "aws_instance" "mediawiki" {
                echo "basemodulepath=./control/modules" | sudo tee -a /etc/puppet/puppet.conf
               EOF
   tags = {
-    "Name" = "mediawiki"
+    "Name" = var.instancedetails["instance_type"]
   }
 }
 
 resource "aws_security_group" "ssh" {
-  name = "accessgroup"
+  name = var.security_group_name
 }
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
