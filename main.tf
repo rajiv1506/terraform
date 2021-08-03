@@ -66,3 +66,5 @@ resource "aws_security_group_rule" "outbound_rule" {
   security_group_id = aws_security_group.ssh.id
 }
 
+
+
