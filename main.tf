@@ -31,7 +31,7 @@ resource "aws_instance" "mediawiki" {
                echo "basemodulepath=./control/modules" | sudo tee -a /etc/puppet/puppet.conf
               EOF
   tags = {
-    "Name" = var.instancedetails["instance_type"]
+    "Name" = var.instancedetails["tag_name"]
   }
 }
 
