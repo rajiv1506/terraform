@@ -42,7 +42,7 @@ resource "null_resource" "exec" {
     connection {
       type = "ssh"
       user = "ubuntu"
-      private_key = var.PUBLIC_KEY
+      private_key = var.PRIVATE_KEY
       host = aws_instance.mediawiki.public_ip
     }
     inline = [
