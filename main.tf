@@ -3,8 +3,10 @@ provider "aws" {
 }
 
 terraform {
-  backend "local" {
-    path = "F:/Backend/terraform.tfstate"
+  backend "s3" {
+    bucket = "mediawikistatefile"
+    key    = "mediawiki/prod/state.tf"
+    region = "ap-south-1"
   }
 }
 
