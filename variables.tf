@@ -21,7 +21,5 @@ variable "security_group_name" {
   default = "Accessingec2"
 }
 
-variable "PRIVATE_KEY" {
-  
-}
+variable "PRIVATE_KEY" {}
 
