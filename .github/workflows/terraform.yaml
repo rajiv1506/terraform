@@ -9,7 +9,7 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@master
       - name: 'Terraform Init'
-        uses: hashicorp/terraform-github-actions@master
+        uses: hashicorp/setup-terraform@v1
         with:
           tf_actions_version: 1.0.2
           tf_actions_subcommand: init 
@@ -21,7 +21,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       - name: 'Terraform Apply'
-        uses: hashicorp/terraform-github-actions@master
+        uses: hashicorp/setup-terraform@v1
         with:
           tf_actions_version: 1.0.2
           tf_actions_subcommand: 'apply'
