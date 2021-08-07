@@ -79,6 +79,7 @@ resource "aws_efs_file_system" "nfs" {
 resource "aws_efs_mount_target" "mount" {
   depends_on = [aws_instance.mediawiki]
   file_system_id = aws_efs_file_system.nfs.id
+  subnet_id = "subnet-4b100c23"
 }
 
 resource "null_resource" "exec" {
