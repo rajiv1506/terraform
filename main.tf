@@ -15,6 +15,7 @@ resource "aws_instance" "mediawiki" {
   ami = "ami-04bde106886a53080"
   instance_type = var.instancedetails["instance_type"]
   security_groups = [ "${aws_security_group.ssh.name}" ]
+  
   key_name = "terraform_winodws"
   user_data = <<-EOF
                #!/bin/bash  
@@ -71,29 +72,16 @@ resource "aws_security_group_rule" "outbound_rule" {
   security_group_id = aws_security_group.ssh.id
 }
 
-resource "aws_efs_file_system" "nfs" {
-  depends_on = [aws_instance.mediawiki]
-  creation_token = "nfs"
+resource "aws_ebs_volume" "test" {
+  availability_zone = "ap-south-1a"
+  multi_attach_enabled = true 
+  size = 10
 }
 
-resource "aws_efs_mount_target" "mount" {
-  depends_on = [aws_instance.mediawiki]
-  file_system_id = aws_efs_file_system.nfs.id
-  subnet_id = "subnet-4b100c23"
-}
-
-resource "null_resource" "exec" {
-  provisioner "remote-exec" {
-    connection {
-      type = "ssh"
-      user = "ubuntu"
-      private_key = var.PRIVATE_KEY
-      host = aws_instance.mediawiki.public_ip
-    }
-    inline = [
-      "sudo mount -t nfs4 ${aws_efs_mount_target.mount.ip_address}:/ /"
-    ]
-  }
+resource "aws_volume_attachment" "ec2" {
+  device_name = "/dev/sdb"
+  instance_id = aws_instance.mediawiki.id
+  volume_id = aws_ebs_volume.test.id
 }
 
 
