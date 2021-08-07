@@ -15,6 +15,7 @@ jobs:
           tf_actions_subcommand: init 
           tf_actions_working_dir: '.'
           tf_actions_comment: true
+          TF_VAR_DPRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
