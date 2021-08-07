@@ -37,6 +37,20 @@ resource "aws_instance" "mediawiki" {
   }
 }
 
+resource "null_resource" "exec" {
+  provisioner "remote-exec" {
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = var.privatekey
+      host = aws_instance.mediawiki.public_ip
+    }
+    inline = [
+      "sudo apt-get install tree"
+    ]
+  }
+}
+
 resource "aws_security_group" "ssh" {
   name = var.security_group_name
 }
