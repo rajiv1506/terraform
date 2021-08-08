@@ -24,3 +24,29 @@ resource "aws_subnet" "PrivateSubnet" {
     "Name" = "Public Subnet"
   }
 }
+
+resource "aws_internet_gateway" "internet" {
+  vpc_id = aws_vpc.mediawiki_vpc.id
+  tags = {
+    "Name" = "InternetGateway"
+  }
+}
+
+resource "aws_route_table" "PublicSubnet_Table" {
+  vpc_id = aws_vpc.mediawiki_vpc.id
+
+  route = [
+    {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.internet.id
+    },
+    {
+      ipv6_cidr_block        = "::/0"
+      egress_only_gateway_id = aws_internet_gateway.internet.id
+    }
+  ]
+
+  tags = {
+    Name = "PublicSubnet_Table"
+  }
+}
