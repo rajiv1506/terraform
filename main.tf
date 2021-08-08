@@ -54,7 +54,7 @@ resource "aws_instance" "mediawiki" {
   ami = "ami-04bde106886a53080"
   subnet_id = data.aws_subnet.PrivateSubnet.id
   instance_type = var.instancedetails["instance_type"]
-  vpc_security_group_ids = [ "${aws_security_group.ssh.name}" ]
+  vpc_security_group_ids = [ "${aws_security_group.ssh.id}" ]
   key_name = "terraform_winodws"
   user_data = <<-EOF
                #!/bin/bash  
@@ -85,7 +85,7 @@ resource "aws_instance" "PublicInstance" {
   subnet_id = data.aws_subnet.PublicSubnet.id
   instance_type = var.instancedetails["instance_type"]
   key_name = "terraform_winodws"
-  vpc_security_group_ids = [ "${aws_security_group.RDP.name}" ]
+  vpc_security_group_ids = [ "${aws_security_group.RDP.id}" ]
   tags = {
     "Name" = "PublicInstance"
   }
@@ -98,6 +98,15 @@ resource "aws_security_group" "RDP" {
   name = "RDP"
   vpc_id = data.aws_vpc.mediawiki_vpc.id
 }
+
+resource "aws_security_group" "ssh" {
+  depends_on = [
+    module.vpc
+  ]
+  name = var.security_group_name
+  vpc_id = data.aws_vpc.mediawiki_vpc.id
+}
+
 
 resource "aws_security_group_rule" "RDP_rule" {
   depends_on = [
@@ -112,13 +121,7 @@ resource "aws_security_group_rule" "RDP_rule" {
 }
 
 
-resource "aws_security_group" "ssh" {
-  depends_on = [
-    module.vpc
-  ]
-  name = var.security_group_name
-  vpc_id = data.aws_vpc.mediawiki_vpc.id
-}
+
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
   depends_on = [
