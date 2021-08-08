@@ -80,7 +80,7 @@ resource "aws_ebs_volume" "test" {
   multi_attach_enabled = true 
   size = 10
   type = "io1" 
-  iops = 10
+  iops = 100
 }
 
 resource "aws_volume_attachment" "ec2" {
