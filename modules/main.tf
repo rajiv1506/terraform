@@ -1,5 +1,5 @@
 terraform {
-  required_versio = "1.0.2"
+  required_version = "1.0.2"
 }
 
 resource "aws_vpc" "mediawiki_vpc" {
