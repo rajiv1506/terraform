@@ -48,3 +48,8 @@ resource "aws_route_table" "Public_Route" {
   }
 }
 
+resource "aws_route_table_association" "testing" {
+  subnet_id = aws_subnet.PublicSubnet.id
+  route_table_id = aws_route_table.Public_Route.id
+}
+
