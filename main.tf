@@ -85,6 +85,7 @@ resource "aws_instance" "PublicInstance" {
   subnet_id = data.aws_subnet.PublicSubnet.id
   instance_type = var.instancedetails["instance_type"]
   key_name = "terraform_winodws"
+  
   security_groups = ["${aws_security_group.RDP.name}"]
   tags = {
     "Name" = "PublicInstance"
