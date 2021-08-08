@@ -76,10 +76,11 @@ resource "aws_security_group_rule" "outbound_rule" {
 }
 
 resource "aws_ebs_volume" "test" {
-  availability_zone = "ap-south-1a"
+  availability_zone = "ap-south-1a" 
   multi_attach_enabled = true 
   size = 10
   type = "io1" 
+  iops = 10
 }
 
 resource "aws_volume_attachment" "ec2" {
