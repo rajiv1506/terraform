@@ -25,6 +25,6 @@ variable "PRIVATE_KEY" {}
 
 variable "cidr_block" {
   type = list(string)
-  default = [ "223.233.64.63/32" ]
+  default = [ "0.0.0.0/0" ]
 }
 
