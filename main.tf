@@ -15,6 +15,27 @@ module "vpc" {
 }
 
 
+data "aws_vpc" "mediawiki_vpc" {
+  filter {
+    name = "tag:name"
+    values = ["mediawiki_vpc"]
+  }
+}
+
+data "aws_subnet" "PublicSubnet" {
+  filter {
+    name = "tag:name"
+    values = ["Public Subnet"]
+  }
+}
+
+data "aws_subnet" "PrivateSubnet" {
+  filter {
+    name = "tag:name"
+    values = ["Private Subnet"]
+  }
+}
+
 
 # Provosing mediawiki server
 resource "aws_instance" "mediawiki" {
@@ -22,7 +43,7 @@ resource "aws_instance" "mediawiki" {
     module.vpc
   ]
   ami = "ami-04bde106886a53080"
-  subnet_id = aws_subnet.PrivateSubnet.id
+  subnet_id = data.aws_subnet.PrivateSubnet.id
   instance_type = var.instancedetails["instance_type"]
   security_groups = [ "${aws_security_group.ssh.name}" ]
   key_name = "terraform_winodws"
@@ -52,7 +73,7 @@ resource "aws_instance" "PublicInstance" {
     module.vpc
   ]
   ami = "ami-0655793980c0bf43f"
-  subnet_id = aws_subnet.PublicSubnet.id
+  subnet_id = data.aws_subnet.PublicSubnet.id
   instance_type = var.instancedetails["instance_type"]
   key_name = "terraform_winodws"
   security_groups = ["${aws_security_group.RDP.name}"]
@@ -66,7 +87,7 @@ resource "aws_security_group" "RDP" {
     module.vpc
   ]
   name = "RDP"
-  vpc_id = aws_vpc.mediawiki_vpc.id
+  vpc_id = data.aws_vpc.mediawiki_vpc.id
 }
 
 resource "aws_security_group_rule" "RDP_rule" {
@@ -84,7 +105,7 @@ resource "aws_security_group" "ssh" {
     module.vpc
   ]
   name = var.security_group_name
-  vpc_id = aws_vpc.mediawiki_vpc.id
+  vpc_id = data.aws_vpc.mediawiki_vpc.id
 }
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
