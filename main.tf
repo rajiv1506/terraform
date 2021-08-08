@@ -20,7 +20,7 @@ data "aws_vpc" "mediawiki_vpc" {
     module.vpc
   ]
   filter {
-    name = "tag:name"
+    name = "tag:Name"
     values = ["mediawiki_vpc"]
   }
 }
@@ -30,7 +30,7 @@ data "aws_subnet" "PublicSubnet" {
     module.vpc
   ]
   filter {
-    name = "tag:name"
+    name = "tag:Name"
     values = ["Public Subnet"]
   }
 }
@@ -40,7 +40,7 @@ data "aws_subnet" "PrivateSubnet" {
     module.vpc
   ]
   filter {
-    name = "tag:name"
+    name = "tag:Name"
     values = ["Private Subnet"]
   }
 }
