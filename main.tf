@@ -100,6 +100,9 @@ resource "aws_security_group" "RDP" {
 }
 
 resource "aws_security_group_rule" "RDP_rule" {
+  depends_on = [
+    module.vpc
+  ]
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = 3389
   to_port = 3389
@@ -118,6 +121,9 @@ resource "aws_security_group" "ssh" {
 }
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
+  depends_on = [
+    module.vpc
+  ]
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = var.ingress[0]
   to_port = var.ingress[0]
@@ -128,6 +134,9 @@ resource "aws_security_group_rule" "sshtomachine_rule" {
 
 
 resource "aws_security_group_rule" "mediwikiport" {
+  depends_on = [
+    module.vpc
+  ]
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = 80
   to_port = 80
@@ -137,6 +146,9 @@ resource "aws_security_group_rule" "mediwikiport" {
 }
 
 resource "aws_security_group_rule" "outbound_rule" {
+  depends_on = [
+    module.vpc
+  ]
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = var.egress[0]
   to_port = var.egress[1]

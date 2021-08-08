@@ -18,7 +18,7 @@ variable "instancedetails" {
 
 variable "security_group_name" {
   type = string
-  default = "Accessingec2"
+  default = "ec2_mediawiki"
 }
 
 variable "PRIVATE_KEY" {}
