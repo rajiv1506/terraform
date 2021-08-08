@@ -11,7 +11,10 @@ terraform {
 }
 
 module "vpc" {
-  source = "./modules/"
+  source = "./modules/vpc"
+  vpc_cidr_block = "192.168.0.0/24"
+  vpc_public_subnet = "192.168.0.0/28"
+  vpc_private_subnet = "192.168.0.128/25"
 }
 
 

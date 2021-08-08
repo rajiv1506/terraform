@@ -3,14 +3,14 @@ terraform {
 }
 
 resource "aws_vpc" "mediawiki_vpc" {
-  cidr_block = "192.168.0.0/24"
+  cidr_block = var.vpc_cidr_block
   tags = {
     "Name" = "mediawiki_vpc"
   }
 }
 
 resource "aws_subnet" "PublicSubnet" {
-  cidr_block = "192.168.0.0/28"
+  cidr_block = var.vpc_public_subnet
   availability_zone = "ap-south-1a"
   vpc_id = aws_vpc.mediawiki_vpc.id
   tags = {
@@ -48,7 +48,3 @@ resource "aws_route_table" "Public_Route" {
   }
 }
 
-resource "aws_route_table_association" "Public_Route_Rule" {
-  route_table_id = aws_route_table.Public_Route.id  
-  subnet_id = aws_subnet.PublicSubnet.id
-}
