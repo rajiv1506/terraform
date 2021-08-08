@@ -16,6 +16,9 @@ module "vpc" {
 
 
 data "aws_vpc" "mediawiki_vpc" {
+  depends_on = [
+    module.vpc
+  ]
   filter {
     name = "tag:name"
     values = ["mediawiki_vpc"]
@@ -23,6 +26,9 @@ data "aws_vpc" "mediawiki_vpc" {
 }
 
 data "aws_subnet" "PublicSubnet" {
+  depends_on = [
+    module.vpc
+  ]
   filter {
     name = "tag:name"
     values = ["Public Subnet"]
@@ -30,6 +36,9 @@ data "aws_subnet" "PublicSubnet" {
 }
 
 data "aws_subnet" "PrivateSubnet" {
+  depends_on = [
+    module.vpc
+  ]
   filter {
     name = "tag:name"
     values = ["Private Subnet"]
