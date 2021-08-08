@@ -11,7 +11,7 @@ terraform {
 }
 
 module "vpc" {
-  source = "../modules"
+  source = "modules/"
 }
 
 # Provosing mediawiki server
