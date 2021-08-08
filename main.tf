@@ -18,7 +18,11 @@ module "vpc" {
 
 # Provosing mediawiki server
 resource "aws_instance" "mediawiki" {
+  depends_on = [
+    module.vpc
+  ]
   ami = "ami-04bde106886a53080"
+  subnet_id = aws_subnet.PrivateSubnet.id
   instance_type = var.instancedetails["instance_type"]
   security_groups = [ "${aws_security_group.ssh.name}" ]
   key_name = "terraform_winodws"
@@ -43,10 +47,35 @@ resource "aws_instance" "mediawiki" {
   }
 }
 
+resource "aws_instance" "PublicInstance" {
+  ami = "ami-0655793980c0bf43f"
+  subnet_id = aws_subnet.PublicSubnet.id
+  instance_type = var.instancedetails["instance_type"]
+  key_name = "terraform_winodws"
+  security_groups = ["${aws_security_group.RDP.name}"]
+  tags = {
+    "Name" = "PublicInstance"
+  }
+}
+
+resource "aws_security_group" "RDP" {
+  name = "RDP"
+  vpc_id = aws_vpc.mediawiki_vpc.id
+}
+
+resource "aws_security_group_rule" "RDP_rule" {
+  cidr_blocks = [ "0.0.0.0/0" ]
+  from_port = 3389
+  to_port = 3389
+  security_group_id = aws_security_group.RDP.id
+  protocol = "tcp"
+  type = "ingress"
+}
 
 
 resource "aws_security_group" "ssh" {
   name = var.security_group_name
+  vpc_id = aws_vpc.mediawiki_vpc.id
 }
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
