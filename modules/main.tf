@@ -21,7 +21,7 @@ resource "aws_subnet" "PrivateSubnet" {
   cidr_block = "192.168.0.128/25"
   vpc_id = aws_vpc.mediawiki_vpc.id
   tags = {
-    "Name" = "Public Subnet"
+    "Name" = "Private Subnet"
   }
 }
 
