@@ -12,6 +12,9 @@ terraform {
 
 # Provosing mediawiki server
 resource "aws_instance" "mediawiki" {
+  depends_on = [
+    aws_ebs_volume.test
+  ]
   ami = "ami-04bde106886a53080"
   instance_type = var.instancedetails["instance_type"]
   security_groups = [ "${aws_security_group.ssh.name}" ]
@@ -76,6 +79,7 @@ resource "aws_ebs_volume" "test" {
   availability_zone = "ap-south-1a"
   multi_attach_enabled = true 
   size = 10
+  type = "io1" 
 }
 
 resource "aws_volume_attachment" "ec2" {
