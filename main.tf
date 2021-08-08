@@ -10,6 +10,10 @@ terraform {
   }
 }
 
+module "vpc" {
+  source = "../modules"
+}
+
 # Provosing mediawiki server
 resource "aws_instance" "mediawiki" {
   ami = "ami-04bde106886a53080"
