@@ -83,6 +83,7 @@ resource "aws_instance" "PublicInstance" {
   ]
   ami = "ami-0655793980c0bf43f"
   subnet_id = data.aws_subnet.PublicSubnet.id
+  associate_public_ip_address = true
   instance_type = var.instancedetails["instance_type"]
   key_name = "terraform_winodws"
   vpc_security_group_ids = [ "${aws_security_group.RDP.id}" ]
@@ -97,6 +98,13 @@ resource "aws_security_group" "RDP" {
   ]
   name = "RDP"
   vpc_id = data.aws_vpc.mediawiki_vpc.id
+  egress {
+    from_port        = -1
+    to_port          =  0
+    protocol         = "all"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
 }
 
 resource "aws_security_group" "ssh" {
