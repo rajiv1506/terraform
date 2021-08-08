@@ -54,7 +54,7 @@ resource "aws_instance" "mediawiki" {
   ami = "ami-04bde106886a53080"
   subnet_id = data.aws_subnet.PrivateSubnet.id
   instance_type = var.instancedetails["instance_type"]
-  security_groups = [ "${aws_security_group.ssh.name}" ]
+  vpc_security_group_ids = [ "${aws_security_group.ssh.name}" ]
   key_name = "terraform_winodws"
   user_data = <<-EOF
                #!/bin/bash  
@@ -85,8 +85,7 @@ resource "aws_instance" "PublicInstance" {
   subnet_id = data.aws_subnet.PublicSubnet.id
   instance_type = var.instancedetails["instance_type"]
   key_name = "terraform_winodws"
-  
-  security_groups = ["${aws_security_group.RDP.name}"]
+  vpc_security_group_ids = [ "${aws_security_group.RDP.name}" ]
   tags = {
     "Name" = "PublicInstance"
   }
