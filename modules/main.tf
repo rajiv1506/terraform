@@ -11,6 +11,7 @@ resource "aws_vpc" "mediawiki_vpc" {
 
 resource "aws_subnet" "PublicSubnet" {
   cidr_block = "192.168.0.0/28"
+  availability_zone = "ap-south-1a"
   vpc_id = aws_vpc.mediawiki_vpc.id
   tags = {
     "Name" = "Public Subnet"
@@ -19,6 +20,7 @@ resource "aws_subnet" "PublicSubnet" {
 
 resource "aws_subnet" "PrivateSubnet" {
   cidr_block = "192.168.0.128/25"
+  availability_zone = "ap-south-1a"
   vpc_id = aws_vpc.mediawiki_vpc.id
   tags = {
     "Name" = "Private Subnet"
