@@ -48,6 +48,9 @@ resource "aws_instance" "mediawiki" {
 }
 
 resource "aws_instance" "PublicInstance" {
+  depends_on = [
+    module.vpc
+  ]
   ami = "ami-0655793980c0bf43f"
   subnet_id = aws_subnet.PublicSubnet.id
   instance_type = var.instancedetails["instance_type"]
@@ -59,6 +62,9 @@ resource "aws_instance" "PublicInstance" {
 }
 
 resource "aws_security_group" "RDP" {
+  depends_on = [
+    module.vpc
+  ]
   name = "RDP"
   vpc_id = aws_vpc.mediawiki_vpc.id
 }
@@ -74,6 +80,9 @@ resource "aws_security_group_rule" "RDP_rule" {
 
 
 resource "aws_security_group" "ssh" {
+  depends_on = [
+    module.vpc
+  ]
   name = var.security_group_name
   vpc_id = aws_vpc.mediawiki_vpc.id
 }
