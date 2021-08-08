@@ -49,7 +49,7 @@ data "aws_subnet" "PrivateSubnet" {
 # Provosing mediawiki server
 resource "aws_instance" "mediawiki" {
   depends_on = [
-    module.vpc
+    module.vpc,aws_security_group.RDP,aws_security_group.ssh
   ]
   ami = "ami-04bde106886a53080"
   subnet_id = data.aws_subnet.PrivateSubnet.id
@@ -79,7 +79,7 @@ resource "aws_instance" "mediawiki" {
 
 resource "aws_instance" "PublicInstance" {
   depends_on = [
-    module.vpc
+    module.vpc,aws_security_group.RDP,aws_security_group.ssh
   ]
   ami = "ami-0655793980c0bf43f"
   subnet_id = data.aws_subnet.PublicSubnet.id
