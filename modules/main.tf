@@ -32,23 +32,18 @@ resource "aws_internet_gateway" "internet" {
   }
 }
 
-resource "aws_route_table" "PublicSubnet_Table" {
-  depends_on = [
-    aws_internet_gateway.internet
-  ]
+resource "aws_route_table" "Public_Route" {
   vpc_id = aws_vpc.mediawiki_vpc.id
-  route = [
-    {
+  route = {
       cidr_block = "0.0.0.0/0"
       gateway_id = aws_internet_gateway.internet.id
-    },
-    {
-      ipv6_cidr_block        = "::/0"
-      egress_only_gateway_id = aws_internet_gateway.internet.id
-    }
-  ]
-
-  tags = {
-    Name = "PublicSubnet_Table"
   }
+  tags = {
+    "Name" = "Public_Route"
+  }
+}
+
+resource "aws_route_table_association" "Public_Route_Rule" {
+  route_table_id = aws_route_table.Public_Route.id  
+  subnet_id = aws_subnet.PublicSubnet.id
 }
