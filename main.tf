@@ -113,6 +113,14 @@ resource "aws_security_group" "ssh" {
   ]
   name = var.security_group_name
   vpc_id = data.aws_vpc.mediawiki_vpc.id
+
+  ingress {
+    from_port        = 8
+    to_port          = 0
+    protocol         = "icmp"
+    cidr_blocks      = ["192.168.0.0/24"]
+    ipv6_cidr_blocks = ["::/0"]
+  
 }
 
 
