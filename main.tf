@@ -52,7 +52,8 @@ resource "aws_instance" "mediawiki" {
     module.vpc,aws_security_group.RDP,aws_security_group.ssh
   ]
   ami = "ami-04bde106886a53080"
-  subnet_id = data.aws_subnet.PrivateSubnet.id
+  subnet_id = data.aws_subnet.PublicSubnet.id
+  associate_public_ip_address = true
   instance_type = var.instancedetails["instance_type"]
   vpc_security_group_ids = [ "${aws_security_group.ssh.id}" ]
   key_name = "terraform_winodws"
@@ -77,35 +78,6 @@ resource "aws_instance" "mediawiki" {
   }
 }
 
-resource "aws_instance" "PublicInstance" {
-  depends_on = [
-    module.vpc,aws_security_group.RDP,aws_security_group.ssh
-  ]
-  ami = "ami-0655793980c0bf43f"
-  subnet_id = data.aws_subnet.PublicSubnet.id
-  associate_public_ip_address = true
-  instance_type = var.instancedetails["instance_type"]
-  key_name = "terraform_winodws"
-  vpc_security_group_ids = [ "${aws_security_group.RDP.id}" ]
-  tags = {
-    "Name" = "PublicInstance"
-  }
-}
-
-resource "aws_security_group" "RDP" {
-  depends_on = [
-    module.vpc
-  ]
-  name = "RDP"
-  vpc_id = data.aws_vpc.mediawiki_vpc.id
-  egress {
-    from_port        = -1
-    to_port          =  0
-    protocol         = "all"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-}
 
 resource "aws_security_group" "ssh" {
   depends_on = [
@@ -113,38 +85,11 @@ resource "aws_security_group" "ssh" {
   ]
   name = var.security_group_name
   vpc_id = data.aws_vpc.mediawiki_vpc.id
-
-  ingress {
-    from_port        = 8
-    to_port          = 0
-    protocol         = "icmp"
-    cidr_blocks      = ["192.168.0.0/24"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-  
 }
-
-
-resource "aws_security_group_rule" "RDP_rule" {
-  depends_on = [
-    module.vpc
-  ]
-  cidr_blocks = [ "0.0.0.0/0" ]
-  from_port = 3389
-  to_port = 3389
-  security_group_id = aws_security_group.RDP.id
-  protocol = "tcp"
-  type = "ingress"
-}
-
-
 
 
 resource "aws_security_group_rule" "sshtomachine_rule" {
-  depends_on = [
-    module.vpc
-  ]
-  cidr_blocks = [ "0.0.0.0/0" ]
+  cidr_blocks = var.cidr_block
   from_port = var.ingress[0]
   to_port = var.ingress[0]
   security_group_id = aws_security_group.ssh.id
@@ -152,11 +97,7 @@ resource "aws_security_group_rule" "sshtomachine_rule" {
   type = "ingress"
 }
 
-
 resource "aws_security_group_rule" "mediwikiport" {
-  depends_on = [
-    module.vpc
-  ]
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = 80
   to_port = 80
@@ -166,9 +107,6 @@ resource "aws_security_group_rule" "mediwikiport" {
 }
 
 resource "aws_security_group_rule" "outbound_rule" {
-  depends_on = [
-    module.vpc
-  ]
   cidr_blocks = [ "0.0.0.0/0" ]
   from_port = var.egress[0]
   to_port = var.egress[1]
