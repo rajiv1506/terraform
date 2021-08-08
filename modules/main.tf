@@ -33,8 +33,10 @@ resource "aws_internet_gateway" "internet" {
 }
 
 resource "aws_route_table" "PublicSubnet_Table" {
+  depends_on = [
+    aws_internet_gateway.internet
+  ]
   vpc_id = aws_vpc.mediawiki_vpc.id
-
   route = [
     {
       cidr_block = "0.0.0.0/0"
