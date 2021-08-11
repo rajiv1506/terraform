@@ -12,13 +12,13 @@ variable "instancedetails" {
   type = map
   default = {
     instance_type = "t2.micro"
-    tag_name = "mediawiki"
+    tag_name = "mediawiki_Demo"
   }
 }
 
 variable "security_group_name" {
   type = string
-  default = "ec2_mediawiki"
+  default = "ec2_mediawiki_Demo"
 }
 
 variable "PRIVATE_KEY" {}
